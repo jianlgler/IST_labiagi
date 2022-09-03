@@ -23,18 +23,17 @@ sys.path.append(path)
 
 device = ("cuda" if torch.cuda.is_available() else "cpu")
 
-wikiart_ds = hub.load('hub://activeloop/wiki-art')
-coco_ds = hub.load("hub://activeloop/coco-train")
+#wikiart_ds = "./images/wikiart"
+#coco_ds = "./images/coco"
 
-imsize = 512 # use small size if no gpu
-
+imsize = 512
 loader = transforms.Compose([transforms.Resize(imsize), transforms.CenterCrop(256),  transforms.ToTensor()])  # transform it into a torch tensor
-loader_hub = transforms.Compose([ transforms.Resize(imsize), transforms.CenterCrop(256),  transforms.ToTensor()])
-pathStyleImages = "./images/style"
-pathContentImages = "./images/content" 
+#loader_hub = transforms.Compose([ transforms.Resize(imsize), transforms.CenterCrop(256),  transforms.ToTensor()])
+pathStyleImages = "./images/wikiart"
+pathContentImages = "./images/coco"
 
 all_img = im.Images(pathStyleImages, pathContentImages, transforms=loader)
-all_img_hub = im.HubImages(coco_ds, wikiart_ds, loader_hub)
+#all_img_hub = im.HubImages(coco_ds, wikiart_ds, loader_hub)
 # Simple save 
 def save_state(decoder, optimiser, iters, run_dir):
   name = "StyleTransfer Checkpoint Iter: {}.tar".format(iters)
@@ -53,7 +52,7 @@ def training_loop(network, # StyleTransferNetwork
 
   writer = SummaryWriter(os.path.join(path, run_dir))
   # Fixed images to compare over time
-  fixed_batch_style, fixed_batch_content = all_img_hub[0]
+  fixed_batch_style, fixed_batch_content = all_img[0]
   fixed_batch_style, fixed_batch_content =  fixed_batch_style.unsqueeze(0).to(device), fixed_batch_content.unsqueeze(0).to(device) # Move images to device
 
   writer.add_image("Style", torchvision.utils.make_grid(fixed_batch_style))
@@ -101,7 +100,7 @@ def training_loop(network, # StyleTransferNetwork
       print(iters)
 
 dataloader_comb = DataLoader(all_img, batch_size=4, shuffle=True, num_workers=0, drop_last=True)
-dataloader_comb_hub = DataLoader(all_img_hub, batch_size=4, shuffle=True, num_workers=0, drop_last=True)
+#dataloader_comb_hub = DataLoader(all_img, batch_size=4, shuffle=True, num_workers=0, drop_last=True)
 
 
 learning_rate = 1e-4
@@ -117,4 +116,4 @@ print(device)
 network = net.Net(device, state_encoder, learning_rate, learning_rate_decay, gamma, train=True, 
                   load_fromstate=False, load_path=os.path.join(path, "StyleTransfer Checkpoint Iter: 120000.tar"))
 
-training_loop(network, dataloader_comb_hub, n_epochs, run_dir)
+training_loop(network, dataloader_comb, n_epochs, run_dir)
