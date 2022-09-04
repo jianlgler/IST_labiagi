@@ -2,6 +2,14 @@
 import torch
 import torch.nn.functional as F
 
+import matplotlib.pyplot as plt
+
+import os
+
+from torchvision import transforms
+
+save_check_dir = "./model"
+
 def calc_mean_std(input, eps=1e-5):
   batch_size, channels = input.shape[:2]
 
@@ -35,3 +43,23 @@ def Style_loss(input, target):
     std_loss += F.mse_loss(std_input_layer, std_target_layer)
 
   return mean_loss+std_loss
+
+def save_state(net, iters):
+  name="decoder_iter_{:d}.pth.tar".format(iters)
+  state_dict = net.decoder.state_dict()
+  for key in state_dict.keys():
+            state_dict[key] = state_dict[key].to(torch.device('cpu'))
+  torch.save(state_dict, os.path.join(save_check_dir, name))
+  print("Checkpoint saved successfully, iters: ", iters)
+
+def imshow(tensor, title=None):
+  toPIL = transforms.ToPILImage(mode="RGB")
+
+  image = tensor.cpu().clone()  # we clone the tensor to not do changes on it
+  image = tensor.squeeze(0)      # remove the fake batch dimension
+  #image = unloader(image)
+  image = toPIL(image)
+  plt.imshow(image)
+  if title is not None:
+      plt.title(title)
+  plt.pause(0.001) # pause a bit so that plots are updated

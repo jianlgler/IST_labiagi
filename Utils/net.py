@@ -2,10 +2,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-import os
 from .utils import *
 
-decoder_re = nn.Sequential(
+decoder = nn.Sequential(
     nn.ReflectionPad2d((1, 1, 1, 1)),
     nn.Conv2d(512, 256, (3, 3)),
     nn.ReLU(), #relu 4_1
@@ -40,7 +39,7 @@ decoder_re = nn.Sequential(
     nn.Conv2d(64, 3, (3, 3)),
 )
 
-vgg_re = nn.Sequential(
+vgg = nn.Sequential(
     nn.Conv2d(3, 3, (1, 1)),
 
     nn.ReflectionPad2d((1, 1, 1, 1)),
@@ -116,9 +115,9 @@ vgg_re = nn.Sequential(
     nn.ReLU()  # relu5-4
 )
 
-class Net_re(nn.Module):
+class Net(nn.Module):
     def __init__(self, encoder, decoder):
-        super(Net_re, self).__init__()
+        super(Net, self).__init__()
         enc_layers = list(encoder.children())
         self.enc_1 = nn.Sequential(*enc_layers[:4])  # input -> relu1_1
         self.enc_2 = nn.Sequential(*enc_layers[4:11])  # relu1_1 -> relu2_1
