@@ -1,4 +1,5 @@
 import torch
+import torch.nn as nn
 import torchvision
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
@@ -9,39 +10,49 @@ from tqdm.notebook import tqdm
 import os
 import sys
 
-import hub
-
-from Utils import net, im
+from Utils import net_re, im
 
 manualSeed = 999
 torch.manual_seed(manualSeed)
-#drive.mount("/content/data")
-#drive.mount("/content/data", force_remount = True)
+ 
+
+def adjust_learning_rate(optimizer, iteration_count):
+    """Imitating the original implementation"""
+    lr = learning_rate / (1.0 + learning_rate_decay * iteration_count)
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr
+
 path = "./images"
 
 sys.path.append(path)
 
 device = ("cuda" if torch.cuda.is_available() else "cpu")
 
-#wikiart_ds = "./images/wikiart"
-#coco_ds = "./images/coco"
-
 imsize = 512
 loader = transforms.Compose([transforms.Resize(imsize), transforms.CenterCrop(256),  transforms.ToTensor()])  # transform it into a torch tensor
-#loader_hub = transforms.Compose([ transforms.Resize(imsize), transforms.CenterCrop(256),  transforms.ToTensor()])
+
 pathStyleImages = "./images/wikiart"
 pathContentImages = "./images/coco"
 
 all_img = im.Images(pathStyleImages, pathContentImages, transforms=loader)
-#all_img_hub = im.HubImages(coco_ds, wikiart_ds, loader_hub)
-# Simple save 
-def save_state(decoder, optimiser, iters, run_dir):
-  name = "StyleTransfer Checkpoint Iter: {}.tar".format(iters)
-  torch.save({"Decoder" : decoder,
-              "Optimiser" : optimiser,
-              "iters": iters
-              }, os.path.join(path, name))
-  print("Saved : {} succesfully".format(name))
+
+decoder = net_re.decoder_re
+vgg = net_re.vgg_re
+
+vgg.load_state_dict(torch.load("./model/vgg_normalised.pth"))
+vgg = nn.Sequential(*list(vgg.children())[:31])
+network = net_re.Net_re(vgg, decoder)
+network.train()
+network.to(device)
+
+learning_rate = 1e-4
+learning_rate_decay = 5e-5
+content_w = 1.0
+style_w = 10.0
+
+optimizer = torch.optim.Adam(network.decoder.parameters(), lr=learning_rate)
+
+max_iter = 160000
 
 def training_loop(network, # StyleTransferNetwork
                   dataloader_comb, # DataLoader
@@ -64,15 +75,19 @@ def training_loop(network, # StyleTransferNetwork
     tqdm_object = tqdm(dataloader_comb, total=len(dataloader_comb))
 
     for style_imgs, content_imgs in tqdm_object:
-      network.adjust_learning_rate(network.optimiser, iters)
+      adjust_learning_rate(optimizer, iters)
       style_imgs = style_imgs.to(device)
       content_imgs = content_imgs.to(device)
 
-      loss_comb, content_loss, style_loss = network(style_imgs, content_imgs)
+      content_loss, style_loss = network(style_imgs, content_imgs)
 
-      network.optimiser.zero_grad()
+      content_loss = content_loss * content_w
+      style_loss = style_loss * style_w
+      loss_comb = style_loss + content_loss
+
+      optimizer.zero_grad()
       loss_comb.backward()
-      network.optimiser.step()
+      optimizer.step()
 
       # Update status bar, add Loss, add Images
       tqdm_object.set_postfix_str("Combined Loss: {:.3f}, Style Loss: {:.3f}, Content Loss: {:.3f}".format(
@@ -83,37 +98,13 @@ def training_loop(network, # StyleTransferNetwork
         writer.add_scalar("Style Loss", style_loss*1000, iters)
         writer.add_scalar("Content Loss", content_loss*1000, iters)
 
-      if (iters+1) % 2000 == 1:
-        with torch.no_grad():
-          network.set_train(False)
-          images = network(fixed_batch_style, fixed_batch_content)
-          img_grid = torchvision.utils.make_grid(images)
-          writer.add_image("Progress Iter: {}".format(iters), img_grid)
-          network.set_train(True)
-
-      if (iters+1) % 4000 == 1:
-          save_state(network.decoder.state_dict(), network.optimiser.state_dict(), iters, run_dir)
-          writer.close()
-          writer = SummaryWriter(os.path.join(path, run_dir))
-
       iters += 1
       print(iters)
 
-dataloader_comb = DataLoader(all_img, batch_size=4, shuffle=True, num_workers=0, drop_last=True)
-#dataloader_comb_hub = DataLoader(all_img, batch_size=4, shuffle=True, num_workers=0, drop_last=True)
-
-
-learning_rate = 1e-4
-learning_rate_decay = 5e-5
-gamma = torch.tensor([2]).to(device) # Style weight
-
+dataloader_comb = DataLoader(all_img, batch_size=5, shuffle=True, num_workers=0, drop_last=True)
 n_epochs = 5
-run_dir = "../runs/Run 1" # Change if you want to save the checkpoints/tensorboard files in a different directory
-
-state_encoder = torch.load("./model/vgg_normalised.pth")
-
-print(device)
-network = net.Net(device, state_encoder, learning_rate, learning_rate_decay, gamma, train=True, 
-                  load_fromstate=False, load_path=os.path.join(path, "StyleTransfer Checkpoint Iter: 120000.tar"))
+run_dir = "../runs/Run 1" 
 
 training_loop(network, dataloader_comb, n_epochs, run_dir)
+
+
