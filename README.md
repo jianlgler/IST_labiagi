@@ -72,6 +72,8 @@ Preserve the original content image color.
 
 ![alt text](https://github.com/jianlgler/IST_labiagi/blob/main/images/result_preserve_color.png)
 
+This feature comes from [Xun Huang's Original implementation in Torch](https://github.com/xunhuang1995/AdaIN-style) too.
+
 # Author 
 Gianluca Trovò, Computer Engineering Student, Sapienza, Rome
 
