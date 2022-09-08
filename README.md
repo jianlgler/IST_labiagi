@@ -24,4 +24,4 @@ console.log("Questo è un esempio di blocco di codice")
 ```
 
 # Autore 
-Gianluca Trovò, studente di Ingegneria Informatica, Sapienza
+Gianluca Trovò, Computer Engineering Student, Sapienza, Rome
