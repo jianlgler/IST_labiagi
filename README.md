@@ -13,6 +13,7 @@ Inspired by:
 - [How to Run](#how-to-run)
 - [The Project](#the-project)
 - [Author](#author)
+- [References](#references)
 
 # How to Start
 
@@ -57,7 +58,11 @@ The Network is trained using both WikiArt (style) and Coco (content) datasets. T
 At the moment there is no executable avaible, what I suggest is to open the folder with a Python IDE (VS Code, Atom...) and run the test.py.
 To control the output and change the input images edit the code variables (alpha, color, image names and paths).
 
-# The Project
-
 # Author 
 Gianluca Trovò, Computer Engineering Student, Sapienza, Rome
+
+# References
+- [1]: [Leon Gatys' Original implementation in Python](https://github.com/leongatys/PytorchNeuralStyleTransfer)
+- [2]: [Xun Huang's Original implementation in Torch](https://github.com/xunhuang1995/AdaIN-style)
+- [3]: Leon Gatys et al.'s paper: [A Neural Algorithm of Artistic Style](https://arxiv.org/pdf/1508.06576.pdf)
+- [4]: Xun Huang et al.'s paper: [Arbitrary Style Transfer in Real-time with Adaptive Instance Normalization](https://arxiv.org/pdf/1703.06868.pdf)
