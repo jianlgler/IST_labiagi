@@ -64,6 +64,8 @@ To control the output and change the input images edit the code variables (alpha
 
 It is possible to control style's impact on the content image through a paramether used for instance normalization.
 
+![alt text](https://github.com/jianlgler/IST_labiagi/blob/main/images/result_alpha.png)
+
 ## Preserve color
 
 Preserve the original content image color.
