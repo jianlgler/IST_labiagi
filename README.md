@@ -68,6 +68,8 @@ It is possible to control style's impact on the content image through a parameth
 
 Preserve the original content image color.
 
+![alt text](https://github.com/jianlgler/IST_labiagi/blob/main/images/result_preserve_color.png)
+
 # Author 
 Gianluca Trovò, Computer Engineering Student, Sapienza, Rome
 
