@@ -50,7 +50,7 @@ git clone https://github.com/jianlgler/IST_labiagi.git
 
 ### Training
 The Network is trained using both WikiArt (style) and Coco (content) datasets. To manually train the network just run train.py. 
-- Wikiart (:magnet:): magnet:?xt=urn:btih:C0915440DADF4F5F3E9B6ADE1F59C478107929AD&dn=wikiart-dataset&tr=http%3a%2f%2fbt1.archive.org%3a6969%2fannounce&tr=http%3a%2f%2fbt2.archive.org%3a6969%2fannounce&ws=https%3a%2f%2farchive.org%2fdownload%2f&ws=http%3a%2f%2fia601508.us.archive.org%2f5%2fitems%2f&ws=%2f5%2fitems%2f
+- [Wikiart](https://archive.org/details/wikiart-dataset)
 - [2017 Coco](http://images.cocodataset.org/zips/train2017.zip)
 
 ### Testing
