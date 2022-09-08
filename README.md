@@ -4,7 +4,7 @@
 
 ![Recordit GIF](http://g.recordit.co/iLN6A0vSD8.gif)
 
-# Indice
+# Index
 
 - [How to Start](#how-to-start)
 - [How to Run](#how-to-run)
