@@ -39,9 +39,5 @@ pip install -r requirements.txt
 
 # The Project
 
-```js
-console.log("Questo è un esempio di blocco di codice")
-```
-
 # Author 
 Gianluca Trovò, Computer Engineering Student, Sapienza, Rome
