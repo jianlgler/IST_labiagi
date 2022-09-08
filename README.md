@@ -2,7 +2,7 @@
 
 > Multiple implementations of Neural Style Transfer
 
-![alt text](https://github.com/jianlgler/IST_labiagi/blob/main/images/output/newyork_stylized_Katsushika_Hokusai_Yoshitsune_Falls_1.jpg)
+![alt text](https://github.com/jianlgler/IST_labiagi/blob/main/images/result.png)
 
 Inspired by: 
   - Leon Gatys et al.'s paper: [A Neural Algorithm of Artistic Style](https://arxiv.org/pdf/1508.06576.pdf)
