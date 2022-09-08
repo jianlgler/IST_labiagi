@@ -58,6 +58,16 @@ The Network is trained using both WikiArt (style) and Coco (content) datasets. T
 At the moment there is no executable avaible, what I suggest is to open the folder with a Python IDE (VS Code, Atom...) and run the test.py.
 To control the output and change the input images edit the code variables (alpha, color, image names and paths).
 
+# Features
+
+## Content/Style tradeoff
+
+It is possible to control style's impact on the content image through a paramether used for instance normalization.
+
+## Preserve color
+
+Preserve the original content image color.
+
 # Author 
 Gianluca Trovò, Computer Engineering Student, Sapienza, Rome
 
