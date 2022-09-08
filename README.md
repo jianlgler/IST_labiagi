@@ -50,7 +50,7 @@ git clone https://github.com/jianlgler/IST_labiagi.git
 ```
 
 ### Training
-The Network is trained using both WikiArt (style) and Coco (content) datasets. To manually train the network just run train.py. 
+The Network is trained using both WikiArt (style) and Coco (content) datasets. To manually train the net just run train.py. 
 - [Wikiart](https://archive.org/details/wikiart-dataset)
 - [2017 Coco](http://images.cocodataset.org/zips/train2017.zip)
 
