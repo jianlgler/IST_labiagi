@@ -11,7 +11,7 @@ Inspired by:
 
 - [How to Start](#how-to-start)
 - [How to Run](#how-to-run)
-- [The Project](#the-project)
+- [Features](#features)
 - [Author](#author)
 - [References](#references)
 
