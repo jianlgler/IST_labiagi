@@ -2,8 +2,11 @@
 
 > Multiple implementations of Neural Style Transfer
 
-![Recordit GIF](http://g.recordit.co/iLN6A0vSD8.gif)
+![alt text](https://github.com/jianlgler/IST_labiagi/blob/main/images/output/newyork_stylized_Katsushika_Hokusai_Yoshitsune_Falls_1.jpg)
 
+Inspired by: 
+  - Leon Gatys et al.'s paper: [A Neural Algorithm of Artistic Style](https://arxiv.org/pdf/1508.06576.pdf)
+  - Xun Huang et al.'s paper: [Arbitrary Style Transfer in Real-time with Adaptive Instance Normalization](https://arxiv.org/pdf/1703.06868.pdf)
 # Index
 
 - [How to Start](#how-to-start)
