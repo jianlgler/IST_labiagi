@@ -17,7 +17,7 @@ Inspired by:
 
 # How to Start
 
-If you are running the ipynb files you do not have to install no dependencies. 
+If you are running the ipynb files you need no dependencies. 
 The neural_style_transfer.ipynb file run perfectly and you don't have to setup anything.
 However for PyTorch_AdaIN.ipynb you will need to adjust paths and folders for the code to be runnable, otherwise it will throw errors. 
 Note that I use the colab.drive library to import what I need (utils, input images and the network), but alternatevely you could clone this whole repository and fix paths to make it work (as an example). In any case, remember to download [the modified VGG-19 network](https://drive.google.com/file/d/1EpkBA2K2eYILDSyPTt0fztz59UjAIpZU/view). 
